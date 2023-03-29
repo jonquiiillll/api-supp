@@ -1,0 +1,21 @@
+
+<div class="header">
+<div class="left--header">
+
+<%= link_to 'Проблемы', admin_problems_path, class: "text" %>
+<%= link_to 'Пользователи', admin_path, class: "opacity" %>
+
+</div>
+<div class="right--header">
+<p class="text"> Admin </p>
+</div>
+</div>
+<div class="block--center">
+    <h1 class="h11">Создание проблемы</h1>
+
+    <%= render "form", trouble: @trouble %>
+</div>
+<br>
+
+ <%= link_to image_tag("back.svg"), admin_problems_path, class:"back_icon"  %>
+  <%= link_to "Назад", admin_problems_path, class:"back" %>

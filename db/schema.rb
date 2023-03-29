@@ -10,9 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_19_090753) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_22_121125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chats", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_private"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "recipient_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "issues", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "body"
+    t.bigint "conversations_id"
+    t.bigint "users_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversations_id"], name: "index_messages_on_conversations_id"
+    t.index ["users_id"], name: "index_messages_on_users_id"
+  end
 
   create_table "problems", force: :cascade do |t|
     t.string "name"
@@ -20,16 +50,79 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_19_090753) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "rooms", force: :cascade do |t|
     t.string "name"
-    t.string "email"
-    t.boolean "isadmin"
+    t.boolean "is_private", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "description"
-    t.integer "age"
-    t.string "avatar"
-    t.text "problems"
   end
 
+  create_table "suppers", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_suppers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_suppers_on_reset_password_token", unique: true
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["user_id"], name: "index_taggings_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "themes", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_themes_on_user_id"
+  end
+
+  create_table "troubles", force: :cascade do |t|
+    t.string "name"
+    t.boolean "display_in_navbar", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "jti"
+    t.string "username"
+    t.string "gender"
+    t.bigint "trouble_id"
+    t.string "topic"
+    t.string "image"
+    t.text "subjects", default: [], array: true
+    t.string "avatar"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["jti"], name: "index_users_on_jti"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["trouble_id"], name: "index_users_on_trouble_id"
+  end
+
+  add_foreign_key "taggings", "tags"
+  add_foreign_key "taggings", "users"
+  add_foreign_key "themes", "users"
+  add_foreign_key "users", "troubles"
 end

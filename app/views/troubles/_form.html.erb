@@ -1,0 +1,23 @@
+<%= form_with(model: trouble) do |form| %>
+  <% if trouble.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(trouble.errors.count, "error") %> prohibited this trouble from being saved:</h2>
+
+      <ul>
+        <% trouble.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="placeholder">
+    <%= form.text_field :name, placeholder: "Введите имя проблемы..." %>
+  </div>
+
+ 
+
+  <div>
+    <%= form.submit "Сохранить" %>
+  </div>
+<% end %>

@@ -1,0 +1,109 @@
+<div class="header">
+<div class="left--header">
+
+<%= link_to 'Проблемы', admin_problems_path,  class: "opacity" %>
+<%= link_to 'Пользователи', admin_path, class: "text" %>
+
+</div>
+<div class="right--header">
+<p class="text"> Admin </p>
+</div>
+</div>
+<div class="Title">
+Пользователи
+</div>
+<div class="header--table">
+<div class="item_id">Id</div>
+<div class="item_avatar">Аватар и имя</div>
+<div class="item_time">Время создания</div>
+<div class="item_status">Статус</div>
+<div class="item_isAdmin">IsAdmin</div>
+</div>
+    <% @users.each do |user| %>
+    <div class="table">
+    <div class="item_id_table">
+    #<%= user.id %>
+    </div>
+        <div class="item_avatar_table">
+        <% if user.avatar  %>
+          <%= image_tag "data:image/png;base64,#{user.avatar}", :class => "avatar" %>
+        <% elsif user.avatar ='' %>
+         <div class="noavatar">
+            <%= user.username.first %>
+        </div>
+     <% else user.avatar === 'картинка' %>
+         <div class="noavatar">
+            <%= user.username.first %>
+        </div>
+
+
+    <% end %>
+           
+     <% if user.username === '' %>
+        <div>Name</div>
+    <% else %>
+        <%= user.username %>
+    <% end %>
+    </div>
+
+
+
+    <div class="item_time_table">
+        <%= user.created_at %>
+    </div>
+
+    <div class="status">
+        <div class="item_status_table">
+            Оффлайн
+        </div>
+    </div>
+
+     <div class="isAdmin">
+        <div class="line">
+            
+        </div>
+    </div>
+
+    </div>
+        
+    <% end %>
+
+
+    <div class="table">
+    <div class="item_id_table">
+    #128
+    </div>
+        <div class="item_avatar_table">
+                 <div class="noavatar">
+                        A
+                </div>
+            <div>Admin</div>
+    </div>
+
+
+
+    <div class="item_time_table">
+        2023-03-28 10:55:26 UTC
+    </div>
+
+    <div class="status">
+        <div class="item_status_table_active">
+            Онлайн
+        </div>
+    </div>
+
+     <div class="isAdmin">
+        <div class="cyrcle">
+            
+        </div>
+    </div>
+
+    </div>
+    <div class="allusers">
+        <p class="title_text">Всего пользователей</p>
+        <p class="big_text"><%= @users.count %></p>
+    </div>
+       <div class="allusers2">
+        <p class="title_text">Пользователей активно</p>
+        <p class="big_text">1</p>
+    </div>

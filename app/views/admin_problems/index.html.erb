@@ -1,0 +1,43 @@
+<div class="header">
+<div class="left--header">
+
+<%= link_to 'Проблемы', admin_problems_path, class: "text" %>
+<%= link_to 'Пользователи', admin_path, class: "opacity" %>
+
+</div>
+<div class="right--header">
+<p class="text"> Admin </p>
+</div>
+</div>
+<div class="Title">
+Проблемы
+</div>
+    <div class="new">
+        <%= link_to 'Создать проблему', new_trouble_path, class: "white" %>
+    </div>
+
+<div class="troubles">
+  <% @troubles.each do |trouble| %>
+  <div class="container_troubles">
+    <div class="problem_text">
+
+        <%= link_to trouble.name, trouble, class: "problem_text" %>
+    </div>
+        <div class="problem_text_grey">
+        
+        <%= I18n.l trouble.created_at.to_date %>
+
+    </div>
+    <div class="button_container">
+        <div class="action_button">
+            <%= link_to image_tag("edit.png"), edit_trouble_path(trouble) %>
+        </div>
+        <%= button_to image_tag("delete.png"), trouble, method: :delete, class: "delete_button" %>
+    </div>
+  </div>
+  <% end %>
+</div>
+    <div class="allproblems">
+        <p class="title_text">Всего проблем</p>
+        <p class="big_text"><%= @troubles.count %></p>
+    </div>
