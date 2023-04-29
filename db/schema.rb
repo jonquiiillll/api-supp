@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_22_121125) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_19_105241) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,13 +35,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_121125) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.text "body"
-    t.bigint "conversations_id"
-    t.bigint "users_id"
+    t.bigint "user_id", null: false
+    t.bigint "room_id", null: false
+    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["conversations_id"], name: "index_messages_on_conversations_id"
-    t.index ["users_id"], name: "index_messages_on_users_id"
+    t.index ["room_id"], name: "index_messages_on_room_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "problems", force: :cascade do |t|
@@ -121,6 +121,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_121125) do
     t.index ["trouble_id"], name: "index_users_on_trouble_id"
   end
 
+  add_foreign_key "messages", "rooms"
+  add_foreign_key "messages", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "taggings", "users"
   add_foreign_key "themes", "users"

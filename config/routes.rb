@@ -40,7 +40,10 @@ Rails.application.routes.draw do
       resources :taggings, only: %i[index show]
     end
   end
-
+  
+  resources :rooms do
+    resources :messages
+  end
 
   scope '/api/v2' do 
     resources :issues
@@ -49,6 +52,9 @@ end
   scope :api, defaults: { format: :json } do
     scope :v1 do
       resources :users, only: %i[index show]
+      resources :rooms do
+        resources :messages
+      end
       devise_for :users, defaults: { format: :json }, path: '', path_names: {
         sign_in: 'login',
         sign_out: 'logout',

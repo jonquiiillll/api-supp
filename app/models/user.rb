@@ -2,6 +2,7 @@ class User < ApplicationRecord
 
   has_many :taggings
   has_many :tags, through: :taggings
+  has_many :messages
 
   def self.tagged_with(name)
     Tag.find_by!(name: name).users
@@ -20,9 +21,10 @@ class User < ApplicationRecord
       Tag.where(name: n.strip).first_or_create!
     end
   end
-
+ 
   mount_uploader :image, ImageUploader
   include Devise::JWT::RevocationStrategies::JTIMatcher
   devise :database_authenticatable, :registerable, :validatable,
          :jwt_authenticatable, :recoverable, :rememberable, jwt_revocation_strategy: self    
+         after_create_commit { broadcast_append_to "users" }       
 end
